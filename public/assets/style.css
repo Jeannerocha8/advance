@@ -1,0 +1,129 @@
+
+@font-face {
+    font-family: "Tommy";
+    src: url("../assets/fonts/TOMMY.otf");
+}
+
+@font-face {
+    font-family: "roboto";
+    src: url("../assets/fonts/Roboto-Medium.ttf");
+  }
+
+a, h1, h2, h3, h4 { 
+    font-family: "Tommy" !important;
+    border: none; 
+};
+
+p {
+    font-family: "roboto";
+    border: none;
+}
+
+body{
+    background-color: #E0E0E0;
+}
+
+.container2{
+    margin-bottom: 20px;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 45vh;
+    background-color:#5252d4 ;
+}
+
+.centroLogin {
+    position: relative;
+    height: 80vh;
+    width: 90vh;
+    background-color: #ffffff;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 13px -4px rgba(77,77,77,1);
+}
+
+.center{
+    margin-top: 20px;
+    border: 1px #cdcdcd solid;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.15);
+}
+
+.centroLogin img{
+    width: 20%;
+    margin-top: 40px;
+}
+form{
+    margin-top: 4%;
+    padding: 4%;
+}
+form .form-control{
+    margin-top: 8px;
+    height: 8vh;
+}
+
+
+
+
+form .btn{
+  background-color: #5252d4 !important;
+    width: 100%;
+    height: 8vh;
+    margin: auto;
+    margin-top: 4%;
+    color: #ffffff;
+    border-radius: 40px;
+    size: 10px;
+    font-family: "Tommy" ;
+}
+
+.float-botao{
+    position: absolute !important;
+    right:    0;
+    bottom:   0;
+    z-index: 10 !important;
+    height: 60px;
+    width: 60px;
+    margin: 20px;
+    border: none;
+    border-radius: 60px;
+    background-color: #5252d4 !important;
+    box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.25);
+    font-family: "Tommy";
+    color: #ffffff;
+    font-size: 30px;
+
+}
+.type{
+    width: 100%;
+    margin: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+    
+}
+.card{
+    margin: 0 !important;
+    float: left;
+    border: none !important;
+}
+
+.modal{
+    border-radius: 20px;
+}
+
+.space{
+    margin-top: 10px;
+}
+@media screen and (max-width: 992px) {
+    .centroLogin {
+        height: 80%;
+        width: 90%;
+       
+    }
+  }

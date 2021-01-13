@@ -47,8 +47,6 @@
         <a href="#"  class="mes" name="ref" style="text-decoration: none; color:#000000;"><h3>{{$mes}}</h3></a>
     </div>  
 
-
-
         <div class="row m-4">
             <div class="col-sm-4 text-center">
                 <div class="row ">

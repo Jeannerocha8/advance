@@ -22,18 +22,18 @@ use App\Http\Controllers\ReceitaController;
 
 //Rotas de usuário
 Route::get('cadastro', UsuariosController::class)->name('casdatro');
-Route::post('createuser', [UsuariosController::class, 'insert'])->name('usuario.create');
+Route::post('criar', [UsuariosController::class,'insert'])->name('criar');
+
+//Route::post('edit', [UsuariosController::class, 'edit'])->name('usuarios.editar');
+//Route::delete('delete', [UsuariosController::class, 'delete'])->name('usuarios.delete');
+
+//rotas de login
 Route::get('login', [UsuariosController::class, 'index'])->name('login');
 Route::post('login', [UsuariosController::class, 'login'])->name('usuarios.login');
 Route::get('logout', [UsuariosController::class, 'logout'])->name('usuarios.logout');
-Route::post('edit', [UsuariosController::class, 'edit'])->name('usuarios.editar');
-Route::delete('delete', [UsuariosController::class, 'delete'])->name('usuarios.delete');
-
-
 
 //rotas dashboard 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 
 //rotas de despesas
 Route::post('create', [DespesaController::class, 'insert'])->name('despesa.insert');

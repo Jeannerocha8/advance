@@ -43,7 +43,7 @@
                 
                 <div class="row">
                     <div  class="col-md6 mx-auto">
-                        <p>Ainda não Possui Conta? <a href="#">Faça seu cadastro agora mesmo.</a></p>
+                        <p>Ainda não Possui Conta? <a href="{{url('cadastro')}}">Faça seu cadastro agora mesmo.</a></p>
                     </div>
                 </div>
 

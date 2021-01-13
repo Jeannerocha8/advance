@@ -12,7 +12,14 @@ class Dashboard extends Model
 
     public static function ValorTotalDespesas(){
         $despesa = DB::select('select sum(valor) from despesas where usuario = :usuario', ['usuario' =>$_SESSION['id_usuario']]);
-        return $despesa[0];
+        if($despesa[0]==null){
+            $despesa = 0;
+            return $despesa;
+        }else{
+            return $despesa[0];
+        }
+        
+
     }
 
     public static function ValorTotalReceitas(){

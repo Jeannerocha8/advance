@@ -15,9 +15,10 @@ class DashboardController extends Controller
         $totaldespesa = Dashboard::ValorTotalDespesas();
         $totalreceita = Dashboard::ValorTotalReceitas();
 
+        
         //calculo de saldo disponivel
-        $receitas = DB::table('receitas')->select('valor')->get();
-        $despesas = DB::table('despesas')->select('valor')->get();
+        $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->get();
+        $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->get();
         $receita  = $receitas->sum('valor');
         $despesa  = $despesas->sum('valor');
         $saldo = $receita - $despesa;

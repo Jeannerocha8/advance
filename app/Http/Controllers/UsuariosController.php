@@ -44,6 +44,7 @@ class UsuariosController extends Controller
             $usuario->email = $request->email;
             $usuario->senha = $request->senha;
             $usuario->save();
+            
             return redirect()->route('login');
         } else {
             return redirect()->back()->with('error', $messages);

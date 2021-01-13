@@ -57,10 +57,9 @@
                             </div>
 
                             <div class="col-8 ">
-                                <p class="card">Receitas</p>
-                                @foreach ($totalreceita as $receitas)
-                                    <h4 class="card">R$ {{$receitas}}</h4>
-                                @endforeach
+                                <p class="card">Receitas        </p>
+                                <h4 class="card">R$ {{$receitas}}</h4>
+                               
                             </div>
                         </div>
                     </div>
@@ -78,9 +77,8 @@
 
                             <div class="col-8 ">
                                 <p class="card">Despesas</p>
-                                @foreach ($totaldespesa as $despesas)
-                                    <h4 class="card">R$ {{$despesas}}</h4>
-                                @endforeach
+                                <h4 class="card">R$ {{$despesas}}</h4>
+                               
                             </div>
                         </div>
                     </div>
@@ -98,8 +96,7 @@
 
                             <div class="col-8">
                                 <p class="card">Saldo em carteira</p>
-                                
-                                    <h4 class="card">R$ {{$saldo}}</h4>
+                                <h4 class="card">R$ {{$saldo}}</h4>
                                
                             </div>
                         </div>

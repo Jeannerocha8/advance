@@ -19,9 +19,9 @@ class DashboardController extends Controller
         //calculo de saldo disponivel
         $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->get();
         $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->get();
-        $receita  = $receitas->sum('valor');
-        $despesa  = $despesas->sum('valor');
-        $saldo = $receita - $despesa;
+        $receitas  = $receitas->sum('valor');
+        $despesas  = $despesas->sum('valor');
+        $saldo = $receitas - $despesas;
 
         //pegando data atual
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
@@ -29,7 +29,7 @@ class DashboardController extends Controller
         $mes= strftime('%B', strtotime('today'));
 
         //retornando a view e passando variaveis como parametros 
-        return view ('dashboard', compact('totaldespesa','totalreceita','saldo', 'mes'));
+        return view ('dashboard', compact('despesas','receitas','saldo', 'mes'));
     }
 
 

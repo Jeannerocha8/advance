@@ -109,7 +109,7 @@
         <!-- DataTales Example -->
         <div class="card  col-12">
             <div class="card-body">
-                <h4>Despesas Cadastradas</h4>
+                <h4 style="margin-bottom:8px;" >Despesas Cadastradas</h4>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>

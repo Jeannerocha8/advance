@@ -42,10 +42,10 @@
 <body>
 
     <div class="container">
-    <div class="text-center center" >
-        <!-- <input type="text"     class="form-control mes" placeholder="{{$mes}}" name="ref" style="border:none; width:100%;" ></input>-->
-        <a href="#"  class="mes" name="ref" style="text-decoration: none; color:#000000;"><h3>{{$mes}}</h3></a>
-    </div>  
+        <div class="text-center center" >
+            <!-- <input type="text"     class="form-control mes" placeholder="{{$mes}}" name="ref" style="border:none; width:100%;" ></input>-->
+            <a href="#"  class="mes" name="ref" style="text-decoration: none; color:#000000;"><h3>{{$mes}}</h3></a>
+        </div>  
 
         <div class="row m-4">
             <div class="col-sm-4 text-center">
@@ -105,6 +105,39 @@
                 </div>
             </div>
         </div>
+
+        <!-- DataTales Example -->
+        <div class="card  col-12">
+            <div class="card-body">
+                <h4>Despesas Cadastradas</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                        <th>Despesa</th>
+                        <th>Valor</th>
+                        <th>Vencimento</th>
+                        <th>Pago</th>
+                        <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($list as $desp)
+                        <tr>
+                            <td>{{$desp->descricao}}</td>
+                            <td>R$ {{$desp->valor}}</td>
+                            <td>{{$desp->datapagamento}}</td>
+                            <td>{{$desp->status}}</td>
+                            <td></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Botão fluante -->
@@ -176,6 +209,7 @@
         </div>
     </div>
 
+    
     <!-- Modal receitas -->
     <div class="modal fade" id="modalReceita" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

@@ -90,5 +90,6 @@ class UsuariosController extends Controller
         @session_destroy();
         return view('login');
     }
- 
+
+    
 }

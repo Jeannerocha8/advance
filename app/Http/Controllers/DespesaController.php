@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\despesa;
 use App\Models\usuario;
+use DB;
 
-class DespesaController extends Controller
-{
+class DespesaController extends Controller{
     
     public function insert(Request $request){
         //iniciando a sessão
@@ -49,5 +49,13 @@ class DespesaController extends Controller
             return redirect() -> back() -> with('error', $messages);
         }             
     }
-    
+
+    public function delete (Despesa $despesas){
+
+        
+        $despesas->delete();
+
+        return redirect('dashboard');
+    }
+   
 }

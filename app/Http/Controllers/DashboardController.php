@@ -25,14 +25,20 @@ class DashboardController extends Controller
         //calculo de saldo disponivel
         $saldo = $receitas - $despesas;
 
+        //pegando despesas a pagar
+        $despesaApagar = DB::table('despesas')->select('valor')->where('status','=','não') -> where('usuario', '=',$_SESSION['id_usuario'] )->get();
+        $despesaApagar = $despesaApagar->sum('valor');
+        
         //pegando data atual
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
         date_default_timezone_set('America/Sao_Paulo');
         $mes= strftime('%B', strtotime('today'));
 
         //retornando a view e passando variaveis como parametros 
-        return view ('dashboard', compact('despesas','receitas','saldo', 'mes', 'list'));
+        return view ('dashboard', compact('despesas','receitas','saldo', 'mes', 'list', 'despesaApagar'));
     }
+
+   
 
 
 }

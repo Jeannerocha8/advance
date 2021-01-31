@@ -24,8 +24,9 @@ use App\Http\Controllers\ReceitaController;
 Route::get('cadastro', UsuariosController::class)->name('casdatro');
 Route::post('criar', [UsuariosController::class,'insert'])->name('criar');
 
-//Route::post('edit', [UsuariosController::class, 'edit'])->name('usuarios.editar');
-//Route::delete('delete', [UsuariosController::class, 'delete'])->name('usuarios.delete');
+Route::post('edit', [UsuariosController::class, 'edit'])->name('usuarios.editar');
+
+Route::delete('delete/{id}', [UsuariosController::class, 'delete'])->name('usuarios.delete');
 
 //rotas de login
 Route::get('login', [UsuariosController::class, 'index'])->name('login');
@@ -37,9 +38,10 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 
 //rotas de despesas
 Route::post('create', [DespesaController::class, 'insert'])->name('despesa.insert');
+Route::delete('deshboard/despesa/delete/{despesas}', [DespesaController::class, 'delete'])->name('despesa.delete');
 
 //rotas de receita
-Route::post('/receita', [ReceitaController::class, 'insert'])->name('receita.insert');
+Route::post('/receita', [ReceitaController::class, 'insert'])-> name('receita.insert');
 
 //rotas de relatórios
 

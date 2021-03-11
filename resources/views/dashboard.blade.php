@@ -40,12 +40,27 @@
 </head>
 
 <body>
-
     <div class="container">
-        <div class="text-center center" >
-            <!-- <input type="text"     class="form-control mes" placeholder="{{$mes}}" name="ref" style="border:none; width:100%;" ></input>-->
-            <a href="#"  class="mes" name="ref" style="text-decoration: none; color:#000000;"><h3>{{$mes}}</h3></a>
-        </div>  
+   
+            <div class="text-center center" >     
+                @csrf
+                <select id="mes" class="select" name={{$mes}}>
+                    <option class="mesteste" value="">{{$mes}}</option>
+                    <option class="mesteste" value="01">Jan</option>
+                    <option class="mesteste"  value="02">Fev</option>
+                    <option class="mesteste" value="03">Mar</option>
+                    <option class="mesteste" value="04">Abr</option>
+                    <option class="mesteste" value="05">Mai</option>
+                    <option class="mesteste" value="06">Jun</option>
+                    <option class="mesteste" value="07">Jul</option>
+                    <option class="mesteste" value="08">Ago</option>
+                    <option class="mesteste" value="09">Set</option>
+                    <option class="mesteste" value="10">Out</option>
+                    <option class="mesteste" value="11">Nov</option>
+                    <option class="mesteste" value="12">Dez</option>
+                </select>
+            </div>  
+
 
         <div class="row m-4">
             <div class="col-sm-4 text-center">
@@ -57,8 +72,8 @@
                             </div>
 
                             <div class="col-8 ">
-                                <p class="card">Receitas        </p>
-                                <h4 class="card">R$ {{$receitas}}</h4>
+                                <p class="card">Receitas</p>
+                                <h4 id="receitas" class="card">R$ {{$receitas}}</h4>
                                
                             </div>
                         </div>
@@ -77,7 +92,7 @@
 
                             <div class="col-8 ">
                                 <p class="card">Despesas</p>
-                                <h4 class="card">R$ {{$despesas}}</h4>
+                                <h4 id="despesas" class="card">R$ {{$despesas}}</h4>
                                
                             </div>
                         </div>
@@ -96,7 +111,7 @@
 
                             <div class="col-8">
                                 <p class="card">Saldo em carteira</p>
-                                <h4 class="card">R$ {{$saldo}}</h4>
+                                <h4 id="saldo" class="card">R$ {{$saldo}}</h4>
                                
                             </div>
                         </div>
@@ -106,7 +121,7 @@
             </div>
         </div>
 
-        <!-- DataTales Example -->
+        <!-- DataTales-->
         <div class="card  col-12">
             <div class="card-body">
                 <h4 style="margin-bottom:8px;" >Despesas Cadastradas</h4>
@@ -122,7 +137,7 @@
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody id="tbody">
                         @foreach($list as $desp)
                         <tr>
                             <td>{{$desp->descricao}}</td>
@@ -131,9 +146,9 @@
                             <td>{{$desp->status}}</td>
 
                             <td>
-                                <i class="fas fa-eye" style="color: #ff0058"></i>
-                                <i class="fas fa-edit" style="color: #ff9f04"></i>
-                                <a data-toggle="modal" data-target="#deleteModal" href=""><i class="fas fa-trash" style="color: #FF3300" ></i></a>
+                                <i class="fas fa-eye" style="color: #5252d4"></i>
+                                <i class="fas fa-edit" style="color: #5252d4"></i>
+                                <a data-toggle="modal" data-target="#deleteModal" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>
 
                             </td>
                         </tr>
@@ -219,7 +234,7 @@
                         <input type="text" class="form-control"  name="descricao"  placeholder="Descrição:" required></input>
 
                         <h6>Categoria: </h6>
-                        <select class="form-control" id="exampleFormControlSelect1" name="categoria" required>
+                        <select class="form-control" id="categoria" name="categoria" required>
                             <option>Aguá</option>
                             <option>Luz</option>
                             <option>Moradia</option>
@@ -228,10 +243,10 @@
                         </select>
 
                         <h6>Data de Pagamento: </h6>
-                        <input type="text" class="date form-control"  name="datapagamento"  placeholder="Data:" required></input>
+                        <input type="text" class="date form-control"  name="datapagamento"   autocomplete="off" placeholder="Data:" required></input>
 
                         <h6>Pago: </h6>
-                        <select class="form-control" id="exampleFormControlSelect1" name="status" required>
+                        <select class="form-control" id="status" name="status" required>
                             <option value="pago">Sim</option>
                             <option value="não">Não</option>
                         </select>
@@ -276,9 +291,12 @@
 
                         <h6 >Descrição:</h6>
                         <input type="text" class="form-control"  name="descricao"  placeholder="Descrição:" required></input>
+                        
+                        <h6>Data de Recebimento: </h6>
+                        <input type="text" class="date form-control"  name="datareceita"   autocomplete="off" placeholder="Data:" required></input>
 
                         <h6>Categoria: </h6>
-                        <select class="form-control" id="exampleFormControlSelect1" name="categoria" required>
+                        <select class="form-control" id="categoriadespesa" name="categoria" required>
                             <option>Salário</option>
                             <option>Renda Extra</option>
                         </select>
@@ -296,13 +314,60 @@
         });  
     </script> 
 
-    <script type="text/javascript">
-      $('.mes').datepicker( {
-        format: 'mm/yyyy',
-        startView: 'year', 
-        minView: 'year',
+    
+
+    <!-- AJAX POST -->  
+    <script>
+
+        $(".select").change(function (event){
+
+            event.preventDefault();
+            var date  = $(".select").val();
+            var get_token = $('input[name="_token"]').val();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-Token': get_token
+                },
+                url: "{{ URL::to('mes') }}",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    date
+                },
+                success: function (result) {
+
+                    var trHTML = '';
+                    $.each(result[3], function (i, item) {
+                        trHTML += '<tr><td>' + item.descricao+ '</td><td>' + item.valor+ '</td><td>' + item.datapagamento + '</td><td>' + item.status+ '</td><td>' +
+                        '<i class="fas fa-eye" style="color: #5252d4; margin: 2px;"></i>'+
+                        '<i class="fas fa-edit" style="color: #5252d4; margin: 2px;"></i>'+
+                        '<a data-toggle="modal" data-target="#deleteModal" href=""><i class="fas fa-trash" style="color: #5252d4;  margin: 2px;" ></i></a>' + '</td></tr>';
+                        
+                    });
+                    $("#tbody").empty();
+                    $('#dataTable').append(trHTML);
+
+}
+               
+  
+            }) 
+            .done(function(result){
+                // Array($despesas,$receitas,$saldo, $list, $despesaApagar));
+                console.log(result);
+                $("#receitas").text( result[1]);
+                $("#despesas").text( result[0]);
+                $("#saldo").text( result[2]);
+                
+              
+
+            });
+
         });
-    </script> 
+
+    </script>
+    <!-- fim do AJAX POST -->
+       
 
 </body>
 

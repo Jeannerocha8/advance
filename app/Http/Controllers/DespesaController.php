@@ -51,11 +51,13 @@ class DespesaController extends Controller{
     }
 
     public function delete (Despesa $despesas){
-
-        
         $despesas->delete();
-
         return redirect('dashboard');
     }
+
+    public function edit (Despesa $despesa){
+        return 'teste';
+    }
+
    
 }

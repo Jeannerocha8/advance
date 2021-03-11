@@ -35,11 +35,12 @@ Route::get('logout', [UsuariosController::class, 'logout'])->name('usuarios.logo
 
 //rotas dashboard 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::post('mes', [DashboardController::class, 'verifica'])->name('mes');
 
 //rotas de despesas
 Route::post('create', [DespesaController::class, 'insert'])->name('despesa.insert');
 Route::delete('deshboard/despesa/delete/{despesas}', [DespesaController::class, 'delete'])->name('despesa.delete');
-
+Route::get('deshboard/despesa/edit/{despesas}', [DespesaController::class, 'edit'])->name('despesa.edit');
 //rotas de receita
 Route::post('/receita', [ReceitaController::class, 'insert'])-> name('receita.insert');
 

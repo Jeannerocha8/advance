@@ -31,6 +31,7 @@ class ReceitaController extends Controller
             $receita->valor = $request->valor;
             $receita->descricao = $request->descricao;
             $receita->categoria = $request->categoria;
+            $receita->datareceita = $request-> datareceita;
             $receita->save();
             
             return redirect()->route('dashboard');

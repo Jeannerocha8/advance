@@ -20,7 +20,7 @@ p {
 }
 
 body{
-    background-color: #E0E0E0;
+    background-color: #ffffff;
 }
 
 .container2{
@@ -57,7 +57,7 @@ body{
 
 .centroLogin img{
     width: 20%;
-    margin-top: 40px;
+    margin-top: 40px;   
 }
 form{
     margin-top: 4%;
@@ -68,7 +68,13 @@ form .form-control{
     height: 8vh;
 }
 
-
+.select{
+    width: 100%;
+    border: none;
+    font-size: 20px;
+    text-align: center; /* para firefox */
+        text-align-last: center; /* para chrome */
+}
 
 
 form .btn{

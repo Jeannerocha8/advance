@@ -17,17 +17,18 @@ class DashboardController extends Controller
         //pegando data atual
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
         date_default_timezone_set('America/Sao_Paulo');
-        $mes= strftime('%m' ,strtotime('today'));
+        $mesc= strftime('%m' ,strtotime('today'));
+        $mes= strftime('%b' ,strtotime('today'));
         $ano= strftime('%Y' ,strtotime('today'));
 
         //consulta ao bando de dados
-        $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datareceita',$mes)->whereYear('datareceita', $ano)->get();
+        $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datareceita',$mesc)->whereYear('datareceita', $ano)->get();
         $receitas  = $receitas->sum('valor');
 
-        $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datapagamento',$mes)->whereYear('datapagamento', $ano)->get();
+        $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
         $despesas  = $despesas->sum('valor');
 
-        $list = DB::table('despesas')->select('*')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datapagamento',$mes)->whereYear('datapagamento', $ano)->get();
+        $list = DB::table('despesas')->select('*')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
 
         //calculo de saldo disponivel
         $saldo = $receitas - $despesas;

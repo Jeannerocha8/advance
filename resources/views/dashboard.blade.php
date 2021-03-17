@@ -149,7 +149,6 @@
                                 <i class="fas fa-eye" style="color: #5252d4"></i>
                                 <i class="fas fa-edit" style="color: #5252d4"></i>
                                 <a data-toggle="modal" data-target="#deleteModal" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>
-
                             </td>
                         </tr>
 
@@ -169,10 +168,10 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn " data-dismiss="modal">Cancelar</button>
 
-                                        <form method="POST" action="{{route('despesa.delete',$desp->id)}}">
+                                        <form method="POST" action="{{route('despesa.delete',$desp->id)}}" >
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" class="btn">Deletar</button>
+                                            <button id="btndeletar" type="submit" class="btn">Deletar</button>
                                         </form>
                                     </div>
                                 </div>
@@ -313,8 +312,7 @@
         format: 'yyyy/mm/dd'
         });  
     </script> 
-
-    
+ 
 
     <!-- AJAX POST -->  
     <script>
@@ -336,21 +334,10 @@
                     date
                 },
                 success: function (result) {
+                                     
+                   
+                }
 
-                    var trHTML = '';
-                    $.each(result[3], function (i, item) {
-                        trHTML += '<tr><td>' + item.descricao+ '</td><td>' + item.valor+ '</td><td>' + item.datapagamento + '</td><td>' + item.status+ '</td><td>' +
-                        '<i class="fas fa-eye" style="color: #5252d4; margin: 2px;"></i>'+
-                        '<i class="fas fa-edit" style="color: #5252d4; margin: 2px;"></i>'+
-                        '<a data-toggle="modal" data-target="#deleteModal" href=""><i class="fas fa-trash" style="color: #5252d4;  margin: 2px;" ></i></a>' + '</td></tr>';
-                        
-                    });
-                    $("#tbody").empty();
-                    $('#dataTable').append(trHTML);
-
-}
-               
-  
             }) 
             .done(function(result){
                 // Array($despesas,$receitas,$saldo, $list, $despesaApagar));
@@ -358,17 +345,32 @@
                 $("#receitas").text( result[1]);
                 $("#despesas").text( result[0]);
                 $("#saldo").text( result[2]);
-                
-              
 
+                var trHTML = '';
+                    $.each(result[3], function (i, item) {
+                        trHTML += '<tr><td>' + item.descricao+ '</td><td>' + item.valor+ '</td><td>' + item.datapagamento + '</td><td>' + item.status+ '</td><td>' +
+                        '<i class="fas fa-eye" style="color: #5252d4; margin: 2px;"></i>'+
+                        '<i class="fas fa-edit" style="color: #5252d4; margin: 2px;"></i>'+
+                        '<a id="deleteCompany" data-id="'+item.id+'" data-toggle="modal" data-target="#deleteModal" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>' + '</td></tr>';
+                    });
+                    $("#tbody").empty();
+                    $('#dataTable').append(trHTML);
             });
-
         });
 
     </script>
     <!-- fim do AJAX POST -->
        
-
+    <script>
+        $('body').on('click', '#deleteCompany', function (event) {   
+            var id = $(this).attr('data-id');
+            alert(id);
+            $("#deleteModal").modal('hide');
+          
+            
+           // $('form').action =('despesas.delete,+id');
+        }); 
+    </script>
 </body>
 
 @endsection

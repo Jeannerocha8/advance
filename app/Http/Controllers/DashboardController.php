@@ -70,7 +70,7 @@ class DashboardController extends Controller
             //pegando despesas a pagar
             $despesaApagar = DB::table('despesas')->select('valor')->where('status','=','não') -> where('usuario', '=',$_SESSION['id_usuario'] )->get();
             $despesaApagar = $despesaApagar->sum('valor');
-        $teste=Array($despesas,$receitas,$saldo, $mes,$list, $despesaApagar);
+            $teste=Array($despesas,$receitas,$saldo, $mes,$list, $despesaApagar);
     
             return response()->json(Array($despesas,$receitas,$saldo,$list, $despesaApagar));
         //retornando a view e passando variaveis como parametros 

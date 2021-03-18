@@ -52,7 +52,7 @@ class DespesaController extends Controller{
 
     public function delete (Despesa $despesas){
         $despesas->delete();
-        return redirect('dashboard');
+        return response()->json(Array($despesas));
     }
 
     public function edit (Despesa $despesa){

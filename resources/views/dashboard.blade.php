@@ -188,7 +188,7 @@
 							@if($errors->all())
 								@foreach($errors->all() as $error)
 								<div class="alert alert-danger alert-dismissible fade show" role="alert" 
-									style='position:fixed; z-index: 900; width: 90%; margin: 0 auto;' >
+								style="position:fixed; z-index: 900; width: 40% !important; margin: 0 auto;" >
 										{{ $error }}
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 											<span aria-hidden="f">&times;</span>
@@ -247,7 +247,7 @@
 							@if($errors->all())
 								@foreach($errors->all() as $error)
 								<div class="alert alert-danger alert-dismissible fade show" role="alert" 
-									style='position:fixed; z-index: 900; width: 90%; margin: 0 auto;' >
+								style="position:fixed; z-index: 900; width: 40% !important; margin: 0 auto;" >
 										{{ $error }}
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 											<span aria-hidden="f">&times;</span>
@@ -377,7 +377,12 @@
 				}) 
 				.done(function(result){
 					$("#deleteModal").modal("hide");
-					alert("Despesa apagada com Sucesseso!");
+					var resposta = '';
+ 					 $(".resposta").empty();
+					  resposta = "<div class='alert msg btn-success text-center' role='alert'>" +
+        			"   <a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>" + "Deletado com sucesso" + "</div>";
+					$(".resposta").append(resposta);
+					
 					console.log(result);
 					location.reload();
 				});

@@ -12,6 +12,7 @@ class DashboardController extends Controller
 {
     public function index (Request $request){
         
+        $mes = $request->date;
         session_start(); //inicia sessão
         
         //pegando data atual

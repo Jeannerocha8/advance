@@ -13,7 +13,7 @@ class ReceitaController extends Controller
 
         //definição das regras
         $rules = [
-            'valor' => 'required',
+            'valor' => ['required','numeric'],
             'categoria' => 'required',
 
         ];
@@ -21,6 +21,7 @@ class ReceitaController extends Controller
         // Definição de mensagens
         $messages = [
             'valor.required' => 'Parece que você se esqueceu de inserir o valor.',
+            'valor.numeric' => 'Inválido, por favor insira um valor numérico.',
             'categoria.required' => 'informe a categoria da despesa.',
         ];
         

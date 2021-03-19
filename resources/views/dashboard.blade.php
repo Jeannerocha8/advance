@@ -121,6 +121,21 @@
 			</div>
 		</div>
 
+		<div class="col-12">
+		<!-- Verifica Existencia de erros -->
+		@if($errors->all())
+			@foreach($errors->all() as $error)
+				<div class="alert alert-danger alert-dismissible fade show text-center" role="alert" style="width: 70% !important; margin: 0 auto;" >
+					{{ $error }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="f">&times;</span>
+					</button>
+				</div>
+			@endforeach
+		@endif
+	    <!-- Fim da verificação de erros -->
+		</div>
+
 		<!-- DataTales-->
 		<div class="card  col-12">
 			<div class="card-body">
@@ -146,7 +161,6 @@
 							<td>{{$desp->status}}</td>
 
 							<td>
-								<i class="fas fa-eye" style="color: #5252d4"></i>
 								<i class="fas fa-edit" style="color: #5252d4"></i>
 								<a id="apagar" data-id="{{$desp->id}}" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>
 							</td>
@@ -183,21 +197,6 @@
 				<div class="modal-body">
 					<form method="POST" action="{{route('despesa.insert')}}">
 						@csrf
-
-							<!-- Verifica Existencia de erros -->
-							@if($errors->all())
-								@foreach($errors->all() as $error)
-								<div class="alert alert-danger alert-dismissible fade show" role="alert" 
-								style="position:fixed; z-index: 900; width: 40% !important; margin: 0 auto;" >
-										{{ $error }}
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="f">&times;</span>
-										</button>
-									</div>
-								@endforeach
-							@endif
-							<!-- Fim da verificação de erros -->
-
 						<h6>Valor da Despesa</h6>
 						<input type="text"     class="form-control" name="valor"  placeholder="R$:" required></input>
 
@@ -243,20 +242,6 @@
 				<div class="modal-body">
 					<form method="POST" action="{{route('receita.insert')}}">
 						@csrf
-							<!-- Verifica Existencia de erros -->
-							@if($errors->all())
-								@foreach($errors->all() as $error)
-								<div class="alert alert-danger alert-dismissible fade show" role="alert" 
-								style="position:fixed; z-index: 900; width: 40% !important; margin: 0 auto;" >
-										{{ $error }}
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="f">&times;</span>
-										</button>
-									</div>
-								@endforeach
-							@endif
-							<!-- Fim da verificação de erros -->
-
 						<h6>Valor da Despesa</h6>
 						<input type="text"     class="form-control" name="valor"  placeholder="R$:" required></input>
 
@@ -339,7 +324,6 @@
 				var trHTML = '';
 					$.each(result[3], function (i, item) {
 						trHTML += '<tr><td>' + item.descricao+ '</td><td>' + item.valor+ '</td><td>' + item.datapagamento + '</td><td>' + item.status+ '</td><td>' +
-						'<i class="fas fa-eye" style="color: #5252d4; margin: 2px;"></i>'+
 						'<i class="fas fa-edit" style="color: #5252d4; margin: 2px;"></i>'+
 						'<a  id="apagar" data-id="'+item.id+'" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>' + '</td></tr>';
 					});
@@ -351,7 +335,6 @@
 	</script>
 	<!-- fim do AJAX POST -->
 
-
 	<!-- AJAX DELETAR DESPESA -->  
 	<script>
 		$(document).on('click','#apagar', function(event){
@@ -359,7 +342,6 @@
 			var idDesp = $(this).attr('data-id');
 			var get_token = $('input[name="_token"]').val();
 
-			alert(idDesp);
 			$("#deleteModal").modal("show");
 
 			$("#btndeletar").on('click', function (e){
@@ -380,7 +362,7 @@
 					var resposta = '';
  					 $(".resposta").empty();
 					  resposta = "<div class='alert msg btn-success text-center' role='alert'>" +
-        			"   <a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>" + "Deletado com sucesso" + "</div>";
+        			"<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>" + "Deletado com sucesso" + "</div>";
 					$(".resposta").append(resposta);
 					
 					console.log(result);
@@ -390,6 +372,8 @@
 		});
 	</script>
 	<!-- FIM DO AJAX DELETAR DESPESA -->  
+
+	
 
 
 </body>

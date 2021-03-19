@@ -58,7 +58,5 @@ class DespesaController extends Controller{
     
     public function edit (Despesa $despesa){
         return 'teste';
-    }
-    
-    
+    }   
 }

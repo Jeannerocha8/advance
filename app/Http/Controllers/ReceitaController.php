@@ -35,7 +35,7 @@ class ReceitaController extends Controller
             $receita->datareceita = $request-> datareceita;
             $receita->save();
             
-            return redirect()->route('dashboard');
+           // return redirect()->route('dashboard');
 
         } else {
             return redirect() -> back() -> with('error', $messages);

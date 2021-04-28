@@ -6,7 +6,8 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script> -->
     <link rel="stylesheet" href="{{url('assets/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{url('assets/style.css')}}">
    

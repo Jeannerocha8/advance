@@ -2,46 +2,45 @@
 @section('title', 'Dashboard')
 @section('content')
 <head>
-<nav class="navbar navbar-dark  navbar-expand-lg navbar-light bg-light" style="background-color: #5252d4 !important;">
-	<img src="{{url('assets/images/logoavance.png')}}" alt="" class="rounded mx-auto d-block" style= "width:40px;">
+	<nav class="navbar navbar-dark  navbar-expand-lg navbar-light bg-light" style="background-color: #5252d4 !important;">
+		<img src="{{url('assets/images/logoavance.png')}}" alt="" class="rounded mx-auto d-block" style= "width:40px;">
+		
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				</li>
+
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Transações <span class="sr-only">(current)</span></a>
+				</li>
+
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Relatórios <span class="sr-only">(current)</span></a>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav ">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Perfil
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" href="#">Editar</a>
+					<a class="dropdown-item" href="{{route('usuarios.logout')}}">Sair</a>
 	
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-			</li>
-
-			<li class="nav-item active">
-				<a class="nav-link" href="#">Transações <span class="sr-only">(current)</span></a>
-			</li>
-
-			<li class="nav-item active">
-				<a class="nav-link" href="#">Relatórios <span class="sr-only">(current)</span></a>
-			</li>
-		</ul>
-
-		<ul class="navbar-nav ">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Perfil
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-				<a class="dropdown-item" href="#">Editar</a>
-				<a class="dropdown-item" href="{{route('usuarios.logout')}}">Sair</a>
-  
-			</li>
-		</ul>
-	</div>
-</nav>
+				</li>
+			</ul>
+		</div>
+	</nav>
 </head>
 
 <body>
 	<div class="container">
-   
 			<div class="text-center center" >     
 				@csrf
 				<select id="mes" class="select" name={{$mes}}>
@@ -133,7 +132,7 @@
 				</div>
 			@endforeach
 		@endif
-	    <!-- Fim da verificação de erros -->
+		<!-- Fim da verificação de erros -->
 		</div>
 
 		<!-- DataTales-->
@@ -161,7 +160,7 @@
 							<td>{{$desp->status}}</td>
 
 							<td>
-								<i class="fas fa-edit" style="color: #5252d4"></i>
+								<a id="editar" data-id="{{$desp->id}}" href=""><i class="fas fa-edit" style="color: #5252d4"></i></a>
 								<a id="apagar" data-id="{{$desp->id}}" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>
 							</td>
 						</tr>
@@ -178,7 +177,7 @@
 	<div >
 		 <button type="button" class="float-botao dropleft" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus" style="color: #ffff"></i></button>
 		 <div class="dropdown-menu">
-			<a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModalCenter">Despesa</a>
+			<a  class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModalCenter">Despesa</a>
 			<a class="dropdown-item"  href="#" data-toggle="modal" data-target="#modalReceita">Receita</a>
 		</div>
 	</div>
@@ -195,33 +194,33 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form method="POST" action="{{route('despesa.insert')}}">
+					<form id="formDesp">
 						@csrf
 						<h6>Valor da Despesa</h6>
-						<input type="text"     class="form-control" name="valor"  placeholder="R$:" required></input>
+						<input id="valDesp" type="text" class="form-control" name="valor"  placeholder="R$:" required></input>
 
 						<h6 >Descrição:</h6>
-						<input type="text" class="form-control"  name="descricao"  placeholder="Descrição:" required></input>
+						<input id="DescDesp" type="text" class="form-control"  name="descricao"  placeholder="Descrição:" required></input>
 
 						<h6>Categoria: </h6>
-						<select class="form-control" id="categoria" name="categoria" required>
-							<option>Aguá</option>
-							<option>Luz</option>
-							<option>Moradia</option>
-							<option>Alimentação</option>
-							<option>Cartão de crédito</option>
+						<select  class="form-control" id="categoria" name="categoria" required>
+							<option value="Aguá">Aguá</option>
+							<option value="Luz">Luz</option>
+							<option value="Moradia" >Moradia</option>
+							<option value="Alimentação" >Alimentação</option>
+							<option value="Cartão de crédito">Cartão de crédito</option>
 						</select>
 
 						<h6>Data de Pagamento: </h6>
-						<input type="text" class="date form-control"  name="datapagamento"   autocomplete="off" placeholder="Data:" required></input>
+						<input id="dataDesp" type="text" class="date form-control"  name="datapagamento"   autocomplete="off" placeholder="Data:" required></input>
 
 						<h6>Pago: </h6>
-						<select class="form-control" id="status" name="status" required>
-							<option value="pago">Sim</option>
+						<select id="StatusDesp" class="form-control" id="status" name="status" required>
+							<option value="sim">Sim</option>
 							<option value="não">Não</option>
 						</select>
 
-						<input type="submit" class="btn" name="Salvar" value="Salvar"></input>
+						<input type="submit" id="btnsalvar" class="btn" name="Salvar" value="Salvar"></input>
 					</form>
 				</div>
 			</div>
@@ -288,8 +287,6 @@
 	</div>
 	<!-- fim Modal delete -->
 
-
-
 	<script type="text/javascript">
 		$('.date').datepicker({  
 		format: 'yyyy/mm/dd'
@@ -312,7 +309,6 @@
 				data: {
 					date
 				}
-
 			}) 
 			.done(function(result){
 				// Array($despesas,$receitas,$saldo, $list, $despesaApagar));
@@ -324,16 +320,16 @@
 				var trHTML = '';
 					$.each(result[3], function (i, item) {
 						trHTML += '<tr><td>' + item.descricao+ '</td><td>' + item.valor+ '</td><td>' + item.datapagamento + '</td><td>' + item.status+ '</td><td>' +
-						'<i class="fas fa-edit" style="color: #5252d4; margin: 2px;"></i>'+
-						'<a  id="apagar" data-id="'+item.id+'" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>' + '</td></tr>';
+						'<a id="editar" data-id="'+item.id+'" href=""><i class="fas fa-edit" style="color: #5252d4"></i></a>'+
+						'<a id="apagar" data-id="'+item.id+'" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>' + '</td></tr>';
 					});
 					$("#tbody").empty();
 					$('#dataTable').append(trHTML);
 			});
 		});
-
 	</script>
 	<!-- fim do AJAX POST -->
+
 
 	<!-- AJAX DELETAR DESPESA -->  
 	<script>
@@ -362,20 +358,89 @@
 					var resposta = '';
  					 $(".resposta").empty();
 					  resposta = "<div class='alert msg btn-success text-center' role='alert'>" +
-        			"<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>" + "Deletado com sucesso" + "</div>";
+					"<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>" + "Deletado com sucesso" + "</div>";
 					$(".resposta").append(resposta);
-					
 					console.log(result);
 					location.reload();
 				});
 			});
 		});
 	</script>
-	<!-- FIM DO AJAX DELETAR DESPESA -->  
+	<!-- fim do AJAX DELETAR -->
+	
+	<!--  
+	<script>
+		$(document).on('click','#editar', function(event){
+			event.preventDefault();
+			var idDesp = $(this).attr('data-id');
+			var get_token = $('input[name="_token"]').val();
+			
+			$.ajax({
+				headers: {
+					'X-CSRF-Token': get_token
+				},
+				url: '/deshboard/despesa/edit/'+idDesp,
+				type: "GET",
+				dataType: 'json',
+				data: {
+					idDesp
+				}
+			}) 
+			.done(function(result){
+				var data = result.datapagamento;
+				console.log(result);
+				console.log(data);
+				$("#exampleModalCenter").modal("show");
+				$("#valDesp").val(result.valor);
+				$("#DescDesp").val(result.descricao);
+				$("#dataDesp").val(result.datapagamento);
+
+				$(document).ready(function () {    
+					$("#categoria").val(result.categoria);
+					$("#StatusDesp").val(result.status);
+					$("#categoria").selectmenu('refresh');
+					$("#StatusDesp").selectmenu('refresh');
+				});
+			});
+		});
+
+
+		
+	</script>
+	 FIM DO SCRIP DE EDITAR -->
+
+
+	<script>
 
 	
+		$(document).on('click','#btnsalvar', function(event){
+			event.preventDefault();
+			alert("entrou no salvar");
+			var data = $('#formDesp').serialize();
+			console.log(data);
+			var get_token = $('input[name="_token"]').val();
+
+			$.ajax({
+				headers: {
+					'X-CSRF-Token': get_token
+				},
+				url: "/create",
+				type: "POST",
+				dataType: 'json',
+				data: {
+					data
+				}
+			}) 
+			.done(function(result){
+				// Array($despesas,$receitas,$saldo, $list, $despesaApagar));
+				console.log(result);
+				
+			});
+			
+		});
 
 
+	</script>
 </body>
 
 @endsection

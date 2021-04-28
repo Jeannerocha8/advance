@@ -12,17 +12,20 @@ class DashboardController extends Controller
 {
     public function index (Request $request){
         
-        $mes = $request->date;
-        session_start(); //inicia sessão
-        
-        //pegando data atual
-        setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
-        date_default_timezone_set('America/Sao_Paulo');
-        $mesc= strftime('%m' ,strtotime('today'));
-        $mes= strftime('%b' ,strtotime('today'));
-        $ano= strftime('%Y' ,strtotime('today'));
+        if (isset( $_SESSION ) ) 
+        { 
+            $mes = $request->date;
+            session_start(); //inicia sessão
+            //dd($_SESSION['id_usuario']);
+            //die();
+            //pegando data atual
+            setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+            date_default_timezone_set('America/Sao_Paulo');
+            $mesc= strftime('%m' ,strtotime('today'));
+            $mes= strftime('%b' ,strtotime('today'));
+            $ano= strftime('%Y' ,strtotime('today'));
 
-        if($_SESSION['id_usuario']){
+        
             //consulta ao bando de dados
             $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datareceita',$mesc)->whereYear('datareceita', $ano)->get();
             $receitas  = $receitas->sum('valor');
@@ -51,18 +54,21 @@ class DashboardController extends Controller
 
 
     public function verifica(Request $request)
-    {
-            //data selecionada pelo usuário
+    {    
+    
+        if (isset( $_SESSION ) ) { 
             $mes = $request->date;
             session_start(); //inicia sessão
+            //dd($_SESSION['id_usuario']);
+            //die();
             //pegando data atual
             setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
             date_default_timezone_set('America/Sao_Paulo');
-
+            $mesc= strftime('%m' ,strtotime('today'));
+            $mes= strftime('%b' ,strtotime('today'));
             $ano= strftime('%Y' ,strtotime('today'));
-    
+
         
-        if($_SESSION['id_usuario']){
             //consulta ao bando de dados
             $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datareceita',$mesc)->whereYear('datareceita', $ano)->get();
             $receitas  = $receitas->sum('valor');

@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Log;
 use App\Models\Dashboard;
 
-use DB;
-use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {

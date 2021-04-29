@@ -74,9 +74,9 @@ class UsuariosController extends Controller
             $usuarios = usuario::where('email', '=', $email)->where('senha', '=', $senha)->first();
             
             if(@$usuarios->id != null){
-                @session_start();
-                $_SESSION['id_usuario'] = $usuarios->id;
-                $_SESSION['nome_usuario'] = $usuarios->nome;
+                $request->session()->put('user', [
+                   'user_id' => $usuarios->id
+                ]);
                 return redirect()->route('dashboard');
 
             } else {
@@ -85,9 +85,9 @@ class UsuariosController extends Controller
         }
     }
 
-    public function logout(){
-        @session_start();
-        @session_destroy();
+    public function logout(Request $request){
+        // Deletando todas as sessões:
+        $request->session()->flush();
         return view('login');
     }
 

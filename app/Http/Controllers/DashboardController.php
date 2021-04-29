@@ -12,12 +12,9 @@ class DashboardController extends Controller
 {
     public function index (Request $request){
         
-        if (isset( $_SESSION ) ) 
-        { 
-            $mes = $request->date;
-            session_start(); //inicia sessão
-            //dd($_SESSION['id_usuario']);
-            //die();
+        // Verifica se existe a sessão
+        if ($request->session()->has('user')) {
+             $mes = $request->date;
             //pegando data atual
             setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
             date_default_timezone_set('America/Sao_Paulo');
@@ -27,27 +24,26 @@ class DashboardController extends Controller
 
         
             //consulta ao bando de dados
-            $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datareceita',$mesc)->whereYear('datareceita', $ano)->get();
+            $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$request->session()->has('user'))->whereMonth('datareceita',$mesc)->whereYear('datareceita', $ano)->get();
             $receitas  = $receitas->sum('valor');
 
-            $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
+            $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$request->session()->has('user'))->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
             $despesas  = $despesas->sum('valor');
 
-            $list = DB::table('despesas')->select('*')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
+            $list = DB::table('despesas')->select('*')->where('usuario','=',$request->session()->has('user'))->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
 
             //calculo de saldo disponivel
             $saldo = $receitas - $despesas;
 
             //pegando despesas a pagar
-            $despesaApagar = DB::table('despesas')->select('valor')->where('status','=','não') -> where('usuario', '=',$_SESSION['id_usuario'] )->get();
+            $despesaApagar = DB::table('despesas')->select('valor')->where('status','=','não') -> where('usuario', '=',$request->session()->has('user'))->get();
             $despesaApagar = $despesaApagar->sum('valor');
         
 
             //retornando a view e passando variaveis como parametros 
             return view ('dashboard', compact('despesas','receitas','saldo', 'mes','list', 'despesaApagar'));
-        }
-        else{
-            return view('login');
+        }else{
+             return view ('login');
         }
     }
 
@@ -56,7 +52,7 @@ class DashboardController extends Controller
     public function verifica(Request $request)
     {    
     
-        if (isset( $_SESSION ) ) { 
+       
             $mes = $request->date;
             session_start(); //inicia sessão
             //dd($_SESSION['id_usuario']);
@@ -70,31 +66,24 @@ class DashboardController extends Controller
 
         
             //consulta ao bando de dados
-            $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datareceita',$mesc)->whereYear('datareceita', $ano)->get();
+            $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$request->session()->has('user'))->whereMonth('datareceita',$mesc)->whereYear('datareceita', $ano)->get();
             $receitas  = $receitas->sum('valor');
 
-            $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
+            $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$request->session()->has('user'))->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
             $despesas  = $despesas->sum('valor');
 
-            $list = DB::table('despesas')->select('*')->where('usuario','=',$_SESSION['id_usuario'])->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
+            $list = DB::table('despesas')->select('*')->where('usuario','=',$request->session()->has('user'))->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
 
             //calculo de saldo disponivel
             $saldo = $receitas - $despesas;
 
             //pegando despesas a pagar
-            $despesaApagar = DB::table('despesas')->select('valor')->where('status','=','não') -> where('usuario', '=',$_SESSION['id_usuario'] )->get();
+            $despesaApagar = DB::table('despesas')->select('valor')->where('status','=','não') -> where('usuario', '=',$request->session()->has('user'))->get();
             $despesaApagar = $despesaApagar->sum('valor');
         
 
             //retornando a view e passando variaveis como parametros 
             return view ('dashboard', compact('despesas','receitas','saldo', 'mes','list', 'despesaApagar'));
-        }
-        else{
-            return view('login');
-        }
- 
     }
    
-
-
 }

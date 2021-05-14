@@ -6,7 +6,7 @@
     <div class="centroLogin">
         <img src="{{url('assets/images/logoavance.png')}}" alt="" class="rounded mx-auto d-block" style="width:15%">
         <div class="container">
-            <form method="POST" action="{{route('usuarios.login')}}">
+            <form  class="formdata" method="POST" action="{{route('usuarios.login')}}">
                 @csrf
                 <!-- Verifica Existencia de erros -->
                 @if($errors->all())

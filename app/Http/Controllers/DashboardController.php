@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function home() {
+        return view('home');
+    }
+
+    
     public function index (Request $request){
         
          $mes = $request->date;

@@ -1,7 +1,7 @@
 @extends('templates.template')
 @section('title', 'Dashboard')
 @section('content')
-<head>
+<header>
 	<nav class="navbar navbar-dark  navbar-expand-lg navbar-light bg-light" style="background-color: #5252d4 !important;">
 		<img src="{{url('assets/images/logoavance.png')}}" alt="" class="rounded mx-auto d-block" style= "width:40px;">
 		
@@ -37,7 +37,7 @@
 			</ul>
 		</div>
 	</nav>
-</head>
+</header>
 
 <body>
 	<div class="container">

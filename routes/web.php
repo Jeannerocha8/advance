@@ -17,15 +17,15 @@ use App\Http\Controllers\ReceitaController;
 |
 */
 
-//Route::get('/', UsuariosController::class)->name('home');
-
+ Route::get('/', function () {
+    return view('welcome');
+     
+ });
 
 //Rotas de usuário
 Route::get('cadastro', UsuariosController::class)->name('casdatro');
 Route::post('criar', [UsuariosController::class,'insert'])->name('criar');
-
 Route::post('edit', [UsuariosController::class, 'edit'])->name('usuarios.editar');
-
 Route::delete('delete/{id}', [UsuariosController::class, 'delete'])->name('usuarios.delete');
 
 //rotas de login
@@ -47,5 +47,4 @@ Route::put('update/{despesa}', [DespesaController::class, 'edit'])->name('update
 //rotas de receita
 Route::post('/receita', [ReceitaController::class, 'insert'])-> name('receita.insert');
 
-//rotas de relatórios
 

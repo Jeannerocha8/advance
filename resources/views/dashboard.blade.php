@@ -310,15 +310,15 @@
 					date
 				}
 			}) 
-			.done(function(result){
+			.success(function(result){
 				// Array($despesas,$receitas,$saldo, $list, $despesaApagar));
-				console.log(result);
-				$("#receitas").text( result[1]);
-				$("#despesas").text( result[0]);
-				$("#saldo").text( result[2]);
+				
+				$("#receitas").text( result.receitas);
+				$("#despesas").text( result.despesas);
+				$("#saldo").text( result.saldo);
 
 				var trHTML = '';
-					$.each(result[3], function (i, item) {
+					$.each(result.list, function (i, item) {
 						trHTML += '<tr><td>' + item.descricao+ '</td><td>' + item.valor+ '</td><td>' + item.datapagamento + '</td><td>' + item.status+ '</td><td>' +
 						'<a id="editar" data-id="'+item.id+'" href=""><i class="fas fa-edit" style="color: #5252d4"></i></a>'+
 						'<a id="apagar" data-id="'+item.id+'" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>' + '</td></tr>';
@@ -412,14 +412,18 @@
 
 	<script>
 
-	
 		$(document).on('click','#btnsalvar', function(event){
 			event.preventDefault();
-			alert("entrou no salvar");
 			var data = $('#formDesp').serialize();
 			console.log(data);
 			var get_token = $('input[name="_token"]').val();
-
+			var valor = $('input[name="valor"]').val();
+			var descricao = $('input[name="descricao"]').val();
+			var categoria = $("#categoria option:selected").val();
+			var datapagamento = $('input[name="datapagamento"]').val();
+			var status = $("#StatusDesp option:selected").val();
+			console.log(valor, descricao, categoria, datapagamento, status);
+			//valor=200.00&descricao=teste2&categoria=Moradia&datapagamento=2021%2F05%2F18&status=n%C3%A3o
 			$.ajax({
 				headers: {
 					'X-CSRF-Token': get_token
@@ -428,12 +432,15 @@
 				type: "POST",
 				dataType: 'json',
 				data: {
-					data
+					valor,
+					descricao,
+					categoria,
+					datapagamento,
+					status
 				}
 			}) 
 			.done(function(result){
-				// Array($despesas,$receitas,$saldo, $list, $despesaApagar));
-				console.log(result);
+				$('#exampleModalCenter').modal('hide');
 				
 			});
 			

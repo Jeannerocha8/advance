@@ -28,8 +28,8 @@ body{
     top: 0px;
     left: 0px;
     width: 100%;
-    height: 45vh;
-    background-color:#5252d4 ;
+    height: 50vh;
+    background: linear-gradient(180deg, #5252D4 0%, #9393D7 100%);
 }
 
 .centroLogin {

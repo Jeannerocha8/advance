@@ -8,14 +8,13 @@ use App\Models\Receita;
 class ReceitaController extends Controller
 {
     public function insert(Request $request){
-        //iniciando a sessão
-        session_start();
-
+      
         //definição das regras
         $rules = [
             'valor' => ['required','numeric'],
             'categoria' => 'required',
-
+            'descricao' => 'required',
+            'datareceita' => 'required'
         ];
 
         // Definição de mensagens
@@ -28,14 +27,14 @@ class ReceitaController extends Controller
         //inserção de dados
         if($request ->validate ($rules, $messages)){
             $receita = new Receita();
-            $receita->usuario =$_SESSION['id_usuario'];
+            $receita->usuario =$request->session()->has('user');;
             $receita->valor = $request->valor;
             $receita->descricao = $request->descricao;
             $receita->categoria = $request->categoria;
             $receita->datareceita = $request-> datareceita;
             $receita->save();
             
-           // return redirect()->route('dashboard');
+           return redirect()->route('dashboard');
 
         } else {
             return redirect() -> back() -> with('error', $messages);

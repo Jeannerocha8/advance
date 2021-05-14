@@ -10,9 +10,12 @@ use DB;
 class DespesaController extends Controller{
     
     public function insert(Request $request){
-        //iniciando a sessão
-        session_start();
         
+        setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+        date_default_timezone_set('America/Sao_Paulo');
+        $mes= strftime('%b' ,strtotime('today'));
+           
+
         //definição das regras
         $rules = [
             'valor' => ['required','numeric'],
@@ -36,14 +39,17 @@ class DespesaController extends Controller{
         //inserção de dados
         if($request ->validate ($rules, $messages)){
             $despesa = new Despesa();
-            $despesa->usuario =$_SESSION['id_usuario'];
+            $despesa->usuario = session()->has('user');
             $despesa->valor = $request->valor;
             $despesa->descricao = $request->descricao;
             $despesa->categoria = $request->categoria;
             $despesa->datapagamento = $request->datapagamento;
             $despesa->status = $request->status;
             $despesa->save();
-            return response()->json(['view'=>'dashboard']);
+
+            $returnHTML = view('dashboard')->with('mes', $mes)->render();
+            return response()->json(array('success' => true, 'html'=>$returnHTML));
+            //return response()->json(['view'=>'dashboard']);
             //return redirect()->route('dashboard');
             
         } else {
@@ -63,9 +69,7 @@ class DespesaController extends Controller{
     }   
 
     public function edit (Request $request, Despesa $despesa){
-         //iniciando a sessão
-         session_start();
-        
+
          //definição das regras
          $rules = [
              'valor' => ['required','numeric'],
@@ -88,7 +92,7 @@ class DespesaController extends Controller{
          
          //inserção de dados
          if($request ->validate ($rules, $messages)){
-             $despesa->usuario =$_SESSION['id_usuario'];
+             $despesa->usuario =$request->session()->has('user');
              $despesa->valor = $request->valor;
              $despesa->descricao = $request->descricao;
              $despesa->categoria = $request->categoria;

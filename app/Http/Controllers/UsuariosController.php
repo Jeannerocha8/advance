@@ -74,9 +74,7 @@ class UsuariosController extends Controller
             $usuarios = usuario::where('email', '=', $email)->where('senha', '=', $senha)->first();
             
             if(@$usuarios->id != null){
-                $request->session()->put('user', [
-                   'user_id' => $usuarios->id
-                ]);
+                $request->session()->put('user', $usuarios->id);
                 return redirect()->route('dashboard');
 
             } else {

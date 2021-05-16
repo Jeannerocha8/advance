@@ -121,6 +121,14 @@
 		</div>
 
 		<div class="col-12">
+
+		<div class="alert alert-success alert-dismissible fade show d-none message" role="alert">
+		
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
 		<!-- Verifica Existencia de erros -->
 		@if($errors->all())
 			@foreach($errors->all() as $error)
@@ -293,6 +301,7 @@
 		});  
 	</script> 
 
+
 	<!-- AJAX POST  SELECIONAR MES -->  
 	<script>
 		$(".select").change(function (event){
@@ -353,7 +362,7 @@
 						idDesp
 					}
 				}) 
-				.done(function(result){
+				.success(function(result){
 					$("#deleteModal").modal("hide");
 					var resposta = '';
  					 $(".resposta").empty();
@@ -367,55 +376,11 @@
 		});
 	</script>
 	<!-- fim do AJAX DELETAR -->
-	
-	<!--  
-	<script>
-		$(document).on('click','#editar', function(event){
-			event.preventDefault();
-			var idDesp = $(this).attr('data-id');
-			var get_token = $('input[name="_token"]').val();
-			
-			$.ajax({
-				headers: {
-					'X-CSRF-Token': get_token
-				},
-				url: '/deshboard/despesa/edit/'+idDesp,
-				type: "GET",
-				dataType: 'json',
-				data: {
-					idDesp
-				}
-			}) 
-			.done(function(result){
-				var data = result.datapagamento;
-				console.log(result);
-				console.log(data);
-				$("#exampleModalCenter").modal("show");
-				$("#valDesp").val(result.valor);
-				$("#DescDesp").val(result.descricao);
-				$("#dataDesp").val(result.datapagamento);
-
-				$(document).ready(function () {    
-					$("#categoria").val(result.categoria);
-					$("#StatusDesp").val(result.status);
-					$("#categoria").selectmenu('refresh');
-					$("#StatusDesp").selectmenu('refresh');
-				});
-			});
-		});
-
-
-		
-	</script>
-	 FIM DO SCRIP DE EDITAR -->
-
 
 	<script>
 
 		$(document).on('click','#btnsalvar', function(event){
 			event.preventDefault();
-			var data = $('#formDesp').serialize();
-			console.log(data);
 			var get_token = $('input[name="_token"]').val();
 			var valor = $('input[name="valor"]').val();
 			var descricao = $('input[name="descricao"]').val();
@@ -424,11 +389,12 @@
 			var status = $("#StatusDesp option:selected").val();
 			console.log(valor, descricao, categoria, datapagamento, status);
 			//valor=200.00&descricao=teste2&categoria=Moradia&datapagamento=2021%2F05%2F18&status=n%C3%A3o
+			
 			$.ajax({
 				headers: {
 					'X-CSRF-Token': get_token
 				},
-				url: "/create",
+				url: "{{ URL::to('create')}}",
 				type: "POST",
 				dataType: 'json',
 				data: {
@@ -439,14 +405,12 @@
 					status
 				}
 			}) 
-			.done(function(result){
+			.success(function(result){
 				$('#exampleModalCenter').modal('hide');
-				
-			});
-			
+				$('.message').removeClass('d-none').html(result.message);
+				 location.reload();
+			});	
 		});
-
-
 	</script>
 </body>
 

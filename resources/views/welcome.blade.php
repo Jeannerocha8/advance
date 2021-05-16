@@ -29,8 +29,6 @@
 </nav>
 <!-- fim do menu -->
 
-
-
 <div class="container">
 	<div class="row">
 		<div class="col-sm-6 d-flex flex-column justify-content-center align-items-center">

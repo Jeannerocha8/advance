@@ -47,14 +47,14 @@ class DespesaController extends Controller{
             $despesa->status = $request->status;
             $despesa->save();
 
-            $returnHTML = view('dashboard')->with('mes', $mes)->render();
-            return response()->json(array('success' => true, 'html'=>$returnHTML));
-            //return response()->json(['view'=>'dashboard']);
-            //return redirect()->route('dashboard');
+            $result ['message'] = 'Despesa cadastrada com sucesso';
+            echo json_encode($result);
+            return;
             
         } else {
-            return response()->json(Array('error', $messages));
-            //return redirect() -> back() -> with('error', $messages);
+            $result ['message'] = 'Erro ao Cadastrar despesa';
+            echo json_encode($result);
+            return;
         }             
     }
     

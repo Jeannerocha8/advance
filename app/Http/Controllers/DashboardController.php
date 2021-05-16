@@ -71,7 +71,6 @@ class DashboardController extends Controller
         // $mes= strftime('%b' ,strtotime('today'));
         $ano= strftime('%Y' ,strtotime('today'));
         
-        
         //consulta ao bando de dados
         $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$request->session()->has('user'))->whereMonth('datareceita',$mes)->whereYear('datareceita', $ano)->get();
         $receitas  = $receitas->sum('valor');
@@ -88,7 +87,6 @@ class DashboardController extends Controller
         $despesaApagar = DB::table('despesas')->select('valor')->where('status','=','não') -> where('usuario', '=',$request->session()->has('user'))->get();
         $despesaApagar = $despesaApagar->sum('valor');
 
-
         //array de resultado
         $result['despesas'] =$despesas;
         $result['receitas']=$receitas;
@@ -96,7 +94,6 @@ class DashboardController extends Controller
         $result['list']=$list;
 
         echo json_encode($result);
-       
     }
     
 }

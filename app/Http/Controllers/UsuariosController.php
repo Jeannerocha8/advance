@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\usuario;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 
 class UsuariosController extends Controller
@@ -37,8 +37,15 @@ class UsuariosController extends Controller
             'senha.min' => 'A senha deve conter no minimo 6 digitos.'
         ];
 
-        //validação da Request
-        if($request ->validate ($rules, $messages)){
+        $user= DB:: table('usuarios')->select('email')->where('email','=',$request->email) ->value('email');
+       // dump($user);
+        //die();
+
+        if($user!=null){
+            $messages = 'Email Já cadastrado.';
+            return redirect()->back()->with('error', $messages);
+
+        }elseif($request ->validate ($rules, $messages)){
             $usuario = new Usuario();
             $usuario->nome = $request->nome;
             $usuario->email = $request->email;

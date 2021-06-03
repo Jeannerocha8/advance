@@ -27,7 +27,7 @@ class ReceitaController extends Controller
         //inserção de dados
         if($request ->validate ($rules, $messages)){
             $receita = new Receita();
-            $receita->usuario =$request->session()->has('user');;
+            $receita->usuario =$request->session()->get('user');;
             $receita->valor = $request->valor;
             $receita->descricao = $request->descricao;
             $receita->categoria = $request->categoria;

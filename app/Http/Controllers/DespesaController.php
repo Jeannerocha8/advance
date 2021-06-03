@@ -39,7 +39,7 @@ class DespesaController extends Controller{
         //inserção de dados
         if($request ->validate ($rules, $messages)){
             $despesa = new Despesa();
-            $despesa->usuario = session()->has('user');
+            $despesa->usuario = session()->get('user');
             $despesa->valor = $request->valor;
             $despesa->descricao = $request->descricao;
             $despesa->categoria = $request->categoria;

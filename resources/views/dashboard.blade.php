@@ -388,7 +388,6 @@
 			var datapagamento = $('input[name="datapagamento"]').val();
 			var status = $("#StatusDesp option:selected").val();
 			console.log(valor, descricao, categoria, datapagamento, status);
-			//valor=200.00&descricao=teste2&categoria=Moradia&datapagamento=2021%2F05%2F18&status=n%C3%A3o
 			
 			$.ajax({
 				headers: {
@@ -408,7 +407,8 @@
 			.success(function(result){
 				$('#exampleModalCenter').modal('hide');
 				$('.message').removeClass('d-none').html(result.message);
-				 location.reload();
+				
+				 //location.reload();
 			});	
 		});
 	</script>

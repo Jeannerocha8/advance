@@ -38,7 +38,7 @@ class UsuariosController extends Controller
         ];
 
         $user= DB:: table('usuarios')->select('email')->where('email','=',$request->email) ->value('email');
-       // dump($user);
+        // dump($user);
         //die();
 
         if($user!=null){

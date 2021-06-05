@@ -424,7 +424,7 @@
 								'X-CSRF-Token': get_token
 							},
 							url: '/update/'+idDesp,
-							type: "POST",
+							type: "PUT",
 							dataType: 'json',
 							data: {
 								valor,

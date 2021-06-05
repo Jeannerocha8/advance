@@ -436,9 +436,8 @@
 						}) 
 						.success(function(result){
 							$('#exampleModalCenter').modal('hide');
-							$('.message').removeClass('d-none').html(result.erros);
-							
-							//location.reload();
+							$('.message').removeClass('d-none').html(result.message);
+							document.getElementById('btneditar').id = 'btnsalvar';
 						});	
 					});
 				});			
@@ -477,7 +476,6 @@
 				$('#exampleModalCenter').modal('hide');
 				$('.message').removeClass('d-none').html(result.message);
 				
-				 //location.reload();
 			});	
 		});
 	</script>

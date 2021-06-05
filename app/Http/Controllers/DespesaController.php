@@ -101,7 +101,7 @@ class DespesaController extends Controller{
              echo json_encode($result);
              return;
          } else {
-            $result ['message, erro'] = 'erro ao alterar despesa';
+            $result ['erro'] = 'erro ao alterar despesa';
             echo json_encode($result);
             return;
         }             

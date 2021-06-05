@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="{{url('assets/style.css')}}">
    
    
-    <link href="{{ URL::asset('assets/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
  
 
@@ -26,11 +25,6 @@
     
 
     <script src="https://kit.fontawesome.com/67e5dc5a6a.js"></script>
-
-    <!-- Scripts DataTables -->
-    <script src="{{ URL::asset('assets/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ URL::asset('assets/datatables/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{ URL::asset('assets/datatables/datatables-demo.js') }}"></script>
 
     <title>@yield('title')</title>
 </head>

@@ -41,7 +41,7 @@ Route::post('mes', [DashboardController::class, 'verifica'])->name('mes');
 Route::post('create', [DespesaController::class, 'insert'])->name('despesa.insert');
 Route::delete('deshboard/despesa/delete/{despesas}', [DespesaController::class, 'delete'])->name('despesa.delete');
 Route::get('deshboard/despesa/edit/{despesa}', [DespesaController::class, 'show'])->name('despesa.edit');
-Route::put('update/{despesa}', [DespesaController::class, 'edit'])->name('update.despesa');
+Route::post('update/{despesa}', [DespesaController::class, 'edit'])->name('update.despesa');
 //Route::post('deshboard/despesa/edit/{despesas}', [DespesaController::class, 'edit'])->name('despesa.edit');
 
 //rotas de receita

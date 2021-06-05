@@ -10,12 +10,7 @@ use DB;
 class DespesaController extends Controller{
     
     public function insert(Request $request){
-        
-        setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
-        date_default_timezone_set('America/Sao_Paulo');
-        $mes= strftime('%b' ,strtotime('today'));
-           
-
+      
         //definição das regras
         $rules = [
             'valor' => ['required','numeric'],
@@ -46,7 +41,7 @@ class DespesaController extends Controller{
             $despesa->datapagamento = $request->datapagamento;
             $despesa->status = $request->status;
             $despesa->save();
-
+          
             $result ['message'] = 'Despesa cadastrada com sucesso';
             echo json_encode($result);
             return;
@@ -68,6 +63,7 @@ class DespesaController extends Controller{
         return response()->json($despesa);
     }   
 
+
     public function edit (Request $request, Despesa $despesa){
 
          //definição das regras
@@ -76,7 +72,6 @@ class DespesaController extends Controller{
              'categoria' => 'required',
              'datapagamento' => 'required|min:10',
              'status' => 'required|min:3',
-             
          ];
          
          // Definição de mensagens
@@ -90,20 +85,25 @@ class DespesaController extends Controller{
              'status.required' => 'Informe o estatus do pagamento.',
          ];
          
-         //inserção de dados
+
+         //atualizar  dados
          if($request ->validate ($rules, $messages)){
-             $despesa->usuario =$request->session()->has('user');
+             $despesa->id = $despesa -> id;
+             $despesa->usuario =$request->session()->get('user');
              $despesa->valor = $request->valor;
              $despesa->descricao = $request->descricao;
              $despesa->categoria = $request->categoria;
              $despesa->datapagamento = $request->datapagamento;
              $despesa->status = $request->status;
-             $despesa->save();
+             $despesa->update();
              
-             return response()->json(['view'=> 'dashboard']);
-             
+             $result ['message'] = 'Despesa alterada com sucesso';
+             echo json_encode($result);
+             return;
          } else {
-            return redirect() -> back() -> with('error', $messages);
-         }             
+            $result ['message, erro'] = 'erro ao alterar despesa';
+            echo json_encode($result);
+            return;
+        }             
     }
 }

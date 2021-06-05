@@ -1,5 +1,5 @@
 @extends('templates.template')
-@section('title', 'Home')
+@section('title', 'Advance')
 @section('content')
 
 
@@ -16,7 +16,7 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#" style="font-size: 25px; font-family: 'righteous' !important; ">Advance</a>
+        
       </li>
     </ul>
 

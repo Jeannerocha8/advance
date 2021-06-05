@@ -132,7 +132,7 @@
 		<!-- Verifica Existencia de erros -->
 		@if($errors->all())
 			@foreach($errors->all() as $error)
-				<div class="alert alert-danger alert-dismissible fade show text-center" role="alert" style="width: 70% !important; margin: 0 auto;" >
+				<div class="alert alert-danger alert-dismissible fade show text-center alertbtn" role="alert" >
 					{{ $error }}
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="f">&times;</span>
@@ -143,7 +143,7 @@
 		<!-- Fim da verificação de erros -->
 		</div>
 
-		<!-- DataTales-->
+		<!-- Tabela-->
 		<div class="card  col-12">
 			<div class="card-body">
 				<h4 style="margin-bottom:8px;" >Despesas Cadastradas</h4>
@@ -204,6 +204,7 @@
 				<div class="modal-body">
 					<form id="formDesp">
 						@csrf
+						
 						<h6>Valor da Despesa</h6>
 						<input id="valDesp" type="text" class="form-control" name="valor"  placeholder="R$:" required></input>
 
@@ -377,8 +378,76 @@
 	</script>
 	<!-- fim do AJAX DELETAR -->
 
-	<script>
 
+
+
+	<!-- AJAX EDITAR DESPESA -->  
+	<script>
+		$(document).on('click','#editar', function(event){
+
+			event.preventDefault();
+			var idDesp = $(this).attr('data-id');
+			var get_token = $('input[name="_token"]').val();
+
+			$.ajax({
+					headers: {
+						'X-CSRF-Token': get_token
+				},
+					url:  '/deshboard/despesa/edit/'+idDesp,
+					type: "GET",
+					dataType: 'json',
+					data: {
+						idDesp
+					}
+				}) 
+				.success(function(result){
+					document.getElementById("valDesp").value = result.valor;
+					document.getElementById("DescDesp").value = result.descricao;
+					document.getElementById("categoria").value = result.categoria;
+					document.getElementById("dataDesp").value = result.datapagamento;
+					document.getElementById("StatusDesp").value = result.status;
+					document.getElementById('btnsalvar').id = 'btneditar';
+					$('#exampleModalCenter').modal('show');
+					
+					$(document).on('click','#btneditar', function(event){
+						event.preventDefault();
+						var get_token = $('input[name="_token"]').val();
+						var valor = $('input[name="valor"]').val();
+						var descricao = $('input[name="descricao"]').val();
+						var categoria = $("#categoria option:selected").val();
+						var datapagamento = $('input[name="datapagamento"]').val();
+						var status = $("#StatusDesp option:selected").val();
+						console.log(valor, descricao, categoria, datapagamento, status);
+						
+						$.ajax({
+							headers: {
+								'X-CSRF-Token': get_token
+							},
+							url: '/update/'+idDesp,
+							type: "POST",
+							dataType: 'json',
+							data: {
+								valor,
+								descricao,
+								categoria,
+								datapagamento,
+								status
+							}
+						}) 
+						.success(function(result){
+							$('#exampleModalCenter').modal('hide');
+							$('.message').removeClass('d-none').html(result.erros);
+							
+							//location.reload();
+						});	
+					});
+				});			
+		});
+	</script>
+	<!-- fim do AJAX EDITAR -->
+
+	<!-- Salvar Despesa -->
+	<script>
 		$(document).on('click','#btnsalvar', function(event){
 			event.preventDefault();
 			var get_token = $('input[name="_token"]').val();
@@ -412,6 +481,8 @@
 			});	
 		});
 	</script>
+	<!-- Fim salvar Despesa --> 
+	
 </body>
 
 @endsection

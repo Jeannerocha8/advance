@@ -364,7 +364,7 @@
 					}
 				}) 
 				.success(function(result){
-					$("#deleteModal").modal("hide");
+					$('#deleteModal .close').click();
 					var resposta = '';
  					 $(".resposta").empty();
 					  resposta = "<div class='alert msg btn-success text-center' role='alert'>" +
@@ -435,7 +435,7 @@
 							}
 						}) 
 						.success(function(result){
-							$('#exampleModalCenter').modal('hide');
+							$('#exampleModalCenter .close').click();
 							$('.message').removeClass('d-none').html(result.message);
 							document.getElementById('btneditar').id = 'btnsalvar';
 						});	
@@ -473,7 +473,7 @@
 				}
 			}) 
 			.success(function(result){
-				$('#exampleModalCenter').modal('hide');
+				$('#exampleModalCenter .close').click();
 				$('.message').removeClass('d-none').html(result.message);
 				
 			});	

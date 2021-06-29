@@ -154,7 +154,10 @@ form .btn{
     color: #ffffff;
     font-size: 30px;
 }
-
+.linha-vertical {
+    height: 500px;/*Altura da linha*/
+    border-left: 2px solid;/* Adiciona borda esquerda na div como ser fosse uma linha.*/
+  }
 .type{
     width: 100%;
     margin: 5px;

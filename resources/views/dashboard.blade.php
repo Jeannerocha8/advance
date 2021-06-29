@@ -2,6 +2,8 @@
 @section('title', 'Dashboard')
 @section('content')
 <header>
+
+
 	<nav class="navbar navbar-dark  navbar-expand-lg navbar-light bg-light" style="background-color: #5252d4 !important;">
 		<img src="{{url('assets/images/logoavance.png')}}" alt="" class="rounded mx-auto d-block" style= "width:40px;">
 		
@@ -32,7 +34,6 @@
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					<a class="dropdown-item" href="#">Editar</a>
 					<a class="dropdown-item" href="{{route('usuarios.logout')}}">Sair</a>
-	
 				</li>
 			</ul>
 		</div>
@@ -58,8 +59,7 @@
 					<option class="mesteste" value="11">Nov</option>
 					<option class="mesteste" value="12">Dez</option>
 				</select>
-			</div>  
-
+			</div> 
 
 		<div class="row m-4">
 			<div class="col-sm-4 text-center">
@@ -73,7 +73,6 @@
 							<div class="col-8 ">
 								<p class="card">Receitas</p>
 								<h4 id="receitas" class="card">R$ {{$receitas}}</h4>
-							   
 							</div>
 						</div>
 					</div>
@@ -91,12 +90,10 @@
 
 							<div class="col-8 ">
 								<p class="card">Despesas</p>
-								<h4 id="despesas" class="card">R$ {{$despesas}}</h4>
-							   
+								<h4 id="despesas" class="card">R$ {{$despesas}}</h4>	   
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 
@@ -110,8 +107,7 @@
 
 							<div class="col-8">
 								<p class="card">Saldo em carteira</p>
-								<h4 id="saldo" class="card">R$ {{$saldo}}</h4>
-							   
+								<h4 id="saldo" class="card">R$ {{$saldo}}</h4>			   
 							</div>
 						</div>
 					</div>
@@ -148,7 +144,7 @@
 			<div class="card-body">
 				<h4 style="margin-bottom:8px;" >Despesas Cadastradas</h4>
 				<div class="table-responsive">
-					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+					<table class="table table-bordered paginate" id="dataTable" width="100%" cellspacing="0">
 					<thead>
 						<tr>
 						<th>Despesa</th>
@@ -178,7 +174,20 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
+	<!--grafico --> 
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-6">
+				<h4>Despesas por categoria</h4>
+				<canvas id="myChart" width="200" height="50%"></canvas>
+			</div>
+			<div class="col-md-6 col-sm-6">
+				<h4>Fluxo de Caixa</h4>
+				<canvas id="myChartBar" width="100%" height="40"></canvas>
+			</div>
+		</div>
 	</div>
 
 	<!-- Botão fluante -->
@@ -235,7 +244,6 @@
 			</div>
 		</div>
 	</div>
-
 	
 	<!-- Modal receitas -->
 	<div class="modal fade" id="modalReceita" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -302,45 +310,6 @@
 		});  
 	</script> 
 
-
-	<!-- AJAX POST  SELECIONAR MES -->  
-	<script>
-		$(".select").change(function (event){
-			event.preventDefault();
-			var date  = $(".select").val();
-			var get_token = $('input[name="_token"]').val();
-			$.ajax({
-				headers: {
-					'X-CSRF-Token': get_token
-				},
-				url: "{{ URL::to('mes')}}",
-				type: "POST",
-				dataType: 'json',
-				data: {
-					date
-				}
-			}) 
-			.success(function(result){
-				// Array($despesas,$receitas,$saldo, $list, $despesaApagar));
-				
-				$("#receitas").text( result.receitas);
-				$("#despesas").text( result.despesas);
-				$("#saldo").text( result.saldo);
-
-				var trHTML = '';
-					$.each(result.list, function (i, item) {
-						trHTML += '<tr><td>' + item.descricao+ '</td><td>' + item.valor+ '</td><td>' + item.datapagamento + '</td><td>' + item.status+ '</td><td>' +
-						'<a id="editar" data-id="'+item.id+'" href=""><i class="fas fa-edit" style="color: #5252d4"></i></a>'+
-						'<a id="apagar" data-id="'+item.id+'" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>' + '</td></tr>';
-					});
-					$("#tbody").empty();
-					$('#dataTable').append(trHTML);
-			});
-		});
-	</script>
-	<!-- fim do AJAX POST -->
-
-
 	<!-- AJAX DELETAR DESPESA -->  
 	<script>
 		$(document).on('click','#apagar', function(event){
@@ -364,7 +333,7 @@
 					}
 				}) 
 				.success(function(result){
-					$('#deleteModal .close').click();
+					$('deleteModal .close').click();
 					var resposta = '';
  					 $(".resposta").empty();
 					  resposta = "<div class='alert msg btn-success text-center' role='alert'>" +
@@ -377,9 +346,6 @@
 		});
 	</script>
 	<!-- fim do AJAX DELETAR -->
-
-
-
 
 	<!-- AJAX EDITAR DESPESA -->  
 	<script>
@@ -407,6 +373,7 @@
 					document.getElementById("dataDesp").value = result.datapagamento;
 					document.getElementById("StatusDesp").value = result.status;
 					document.getElementById('btnsalvar').id = 'btneditar';
+				
 					$('#exampleModalCenter').modal('show');
 					
 					$(document).on('click','#btneditar', function(event){
@@ -417,8 +384,7 @@
 						var categoria = $("#categoria option:selected").val();
 						var datapagamento = $('input[name="datapagamento"]').val();
 						var status = $("#StatusDesp option:selected").val();
-						console.log(valor, descricao, categoria, datapagamento, status);
-						
+						//console.log(valor, descricao, categoria, datapagamento, status);
 						$.ajax({
 							headers: {
 								'X-CSRF-Token': get_token
@@ -433,11 +399,10 @@
 								datapagamento,
 								status
 							}
-						}) 
+						})
 						.success(function(result){
 							$('#exampleModalCenter .close').click();
 							$('.message').removeClass('d-none').html(result.message);
-							document.getElementById('btneditar').id = 'btnsalvar';
 						});	
 					});
 				});			
@@ -474,13 +439,125 @@
 			}) 
 			.success(function(result){
 				$('#exampleModalCenter .close').click();
-				$('.message').removeClass('d-none').html(result.message);
-				
+				$('.message').removeClass('d-none').html(result.message);				
 			});	
+
 		});
 	</script>
 	<!-- Fim salvar Despesa --> 
+
+	<script>
+		var cData = JSON.parse(`<?=  $buscas['resultado'] ?>`);
+		console.log('Alisson cabeção');
+		console.log('<?=  $buscas['resultado'] ?>');
+		console.log(cData);
+		console.log(cData.descricao);
+
+		var ctx = document.getElementById('myChart').getContext('2d');
+		var myChart = new Chart(ctx, {
+			type: 'pie',
+			data: {
+				labels: cData.descricao,
+				datasets: [{
+					label: 'Despesas mensal em R$ ',
+					data: cData.valor,
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+      					'rgba(255, 159, 64, 0.2)',
+      					'rgba(75, 192, 192, 0.2)',
+     					'rgba(54, 162, 235, 0.2)',
+      					'rgba(153, 102, 255, 0.2)',
+     					'rgba(201, 203, 207, 0.2)'		
+					],
+					borderColor: [
+						'rgb(255, 99, 132)',
+      					'rgb(255, 159, 64)',
+     					'rgb(75, 192, 192)',
+      					'rgb(54, 162, 235)',
+      					'rgb(153, 102, 255)',
+      					'rgb(201, 203, 207)'	
+					],
+				}]
+			}
+		});
+	</script>
+
+	<script>
+		var cData = JSON.parse(`<?=  $buscas['resultado'] ?>`);
+		console.log('Alisson cabeção');
+		console.log('<?=  $buscas['resultado'] ?>');
+		console.log(cData);
+		console.log(cData.descricao);
+
+		var ctx = document.getElementById('myChartBar').getContext('2d');
+		var myChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: cData.descricao,
+				datasets: [{
+					label: 'Despesas mensal em R$ ',
+					data: cData.valor,
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+      					'rgba(255, 159, 64, 0.2)',
+      					'rgba(75, 192, 192, 0.2)',
+     					'rgba(54, 162, 235, 0.2)',
+      					'rgba(153, 102, 255, 0.2)',
+     					'rgba(201, 203, 207, 0.2)'		
+					],
+					borderColor: [
+						'rgb(255, 99, 132)',
+      					'rgb(255, 159, 64)',
+     					'rgb(75, 192, 192)',
+      					'rgb(54, 162, 235)',
+      					'rgb(153, 102, 255)',
+      					'rgb(201, 203, 207)'	
+					],
+					borderWidth: 1
+				}]
+			}
+		});
+	</script>
+
+
+	<!-- AJAX POST  SELECIONAR MES -->  
+	<script>
+		$(".select").change(function (event){
+			event.preventDefault();
+			var date  = $(".select").val();
+			var get_token = $('input[name="_token"]').val();
+			$.ajax({
+				headers: {
+					'X-CSRF-Token': get_token
+				},
+				url: "{{ URL::to('mes')}}",
+				type: "POST",
+				dataType: 'json',
+				data: {
+					date
+				}
+			}) 
+			.success(function(result){
+				// Array($despesas,$receitas,$saldo, $list, $despesaApagar));				
+				$("#receitas").text( result.receitas);
+				$("#despesas").text( result.despesas);
+				$("#saldo").text( result.saldo);
+				
+				var trHTML = '';
+					$.each(result.list, function (i, item) {
+						trHTML += '<tr><td>' + item.descricao+ '</td><td>' + item.valor+ '</td><td>' + item.datapagamento + '</td><td>' + item.status+ '</td><td>' +
+						'<a id="editar" data-id="'+item.id+'" href=""><i class="fas fa-edit" style="color: #5252d4"></i></a>'+
+						'<a id="apagar" data-id="'+item.id+'" href=""><i class="fas fa-trash" style="color: #5252d4" ></i></a>' + '</td></tr>';
+					});
+					$("#tbody").empty();
+					$('#dataTable').append(trHTML);
+			});
+		});
+	</script>
+	<!-- fim do AJAX POST -->
+
 	
 </body>
 
 @endsection
+

@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Log;
 use App\Models\Dashboard;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Models\despesa;
+use App\Models\Receita;
 
 class DashboardController extends Controller
 {
@@ -14,89 +15,61 @@ class DashboardController extends Controller
         return view('home');
     }
 
-    
-    public function index (Request $request){
+    public function index (Request $request, Despesa $despesa, Receita $receita){
         
-         $mes = $request->date;
+         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+         date_default_timezone_set('America/Sao_Paulo');
+         $mes= strftime('%m' ,strtotime('today'));
+         $ano= strftime('%Y' ,strtotime('today'));
         
-        //pegando data atual
-        setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
-        date_default_timezone_set('America/Sao_Paulo');
-        $mesc= strftime('%m' ,strtotime('today'));
-        //$mes= strftime('%b' ,strtotime('today'));
-        $ano= strftime('%Y' ,strtotime('today'));
-        
+         
         // Verifica se existe a sessão
         if ($request->session()->has('user')) {
             
             //variavel valor do usuario
             $user = $request->session()->get('user');
-           // dump($user);
-           // die();
-           
-            //consulta ao bando de dados
-            $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$user)->whereMonth('datareceita',$mesc)->whereYear('datareceita', $ano)->get();
-            $receitas  = $receitas->sum('valor');
-            
-            $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$user)->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();       
-            $despesas  = $despesas->sum('valor');
-     
-            
 
-            $list = DB::table('despesas')->select('*')->where('usuario','=',$user)->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();
-            
-            //calculo de saldo disponivel
+            //retorno das consultas ao bando de dados
+            $receitas = $receita->Totalreceitas($user, $mes, $ano);
+            $despesas = $despesa->TotalDespesas($user, $mes, $ano);
+            $list = $despesa->ListaDespesas($user, $mes, $ano);
             $saldo = $receitas - $despesas;
-            
-            //pegando despesas a pagar
-            $despesaApagar = DB::table('despesas')->select('valor')->where('status','=','não') -> where('usuario', '=',$user)->get();
-            $despesaApagar = $despesaApagar->sum('valor');
-            
-           
-
+            $despesaApagar = $despesa->Despesaspagar($user, $mes, $ano);
+            $buscas = $despesa->Obterdados($user, $mes, $ano);
+            //dd($buscas);
             //retornando a view e passando variaveis como parametros 
-            return view ('dashboard', compact('despesas','receitas','saldo', 'mes','list', 'despesaApagar'));
+            return view ('dashboard', compact('despesas','receitas','saldo', 'mes','list', 'despesaApagar','buscas'));
         }else{
             return view ('login');
         }
     }
     
-    
-    public function verifica(Request $request)
-    {    
-        
+    public function verifica(Request $request, Despesa $despesa, Receita $receita)
+    {   
+        $user = $request->session()->get('user');
         $mes = $request->date;
-        
-        //pegando data atual
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
         date_default_timezone_set('America/Sao_Paulo');
-        //$mesc= strftime('%m' ,strtotime('today'));
-        // $mes= strftime('%b' ,strtotime('today'));
         $ano= strftime('%Y' ,strtotime('today'));
         
         //consulta ao bando de dados
-        $receitas = DB::table('receitas')->select('valor')->where('usuario','=',$request->session()->get('user'))->whereMonth('datareceita',$mes)->whereYear('datareceita', $ano)->get();
-        $receitas  = $receitas->sum('valor');
-        
-        $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$request->session()->get('user'))->whereMonth('datapagamento',$mes)->whereYear('datapagamento', $ano)->get();
-        $despesas  = $despesas->sum('valor');
-        
-        $list = DB::table('despesas')->select('*')->where('usuario','=',$request->session()->get('user'))->whereMonth('datapagamento',$mes)->whereYear('datapagamento', $ano)->get();
-        
-        //calculo de saldo disponivel
+        $receitas = $receita->Totalreceitas($user, $mes, $ano);
+        $despesas = $despesa->TotalDespesas($user, $mes, $ano);
+        $list = $despesa->ListaDespesas($user, $mes, $ano);
         $saldo = $receitas - $despesas;
-        
-        //pegando despesas a pagar
-        $despesaApagar = DB::table('despesas')->select('valor')->where('status','=','não') -> where('usuario', '=',$request->session()->get('user'))->get();
-        $despesaApagar = $despesaApagar->sum('valor');
+        $despesaApagar = $despesa->Despesaspagar($user, $mes, $ano);
+        $buscas = $despesa->Obterdados($user, $mes, $ano);
 
         //array de resultado
-        $result['despesas'] =$despesas;
+        $result['despesas']=$despesas;
         $result['receitas']=$receitas;
         $result['saldo']=$saldo;
         $result['list']=$list;
-
+        $result['buscas']=$buscas;
+        //dd( $result['buscas']);
         echo json_encode($result);
     }
-    
+
+
+
 }

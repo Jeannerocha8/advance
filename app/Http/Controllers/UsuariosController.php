@@ -18,8 +18,9 @@ class UsuariosController extends Controller
         return view('login');
     }
 
-    public function insert (Request $request){
+    public function insert (Request $request, Usuario $usuario){
 
+        
         //definição das regras
         $rules = [
             'nome' => 'required|min:3',
@@ -36,32 +37,25 @@ class UsuariosController extends Controller
             'senha.required' => 'Informe sua senha.',
             'senha.min' => 'A senha deve conter no minimo 6 digitos.'
         ];
-
-        $user= DB:: table('usuarios')->select('email')->where('email','=',$request->email) ->value('email');
-        // dump($user);
-        //die();
+        $email = $request->email;
+        $user= $usuario->VerificaEmail($email);
+    
 
         if($user!=null){
             $messages = 'Email Já cadastrado.';
             return redirect()->back()->with('error', $messages);
 
         }elseif($request ->validate ($rules, $messages)){
-            $usuario = new Usuario();
-            $usuario->nome = $request->nome;
-            $usuario->email = $request->email;
-            $usuario->senha = $request->senha;
-            $usuario->save();
-            
+            $usuario = $usuario->Cadastro($request);
             return redirect()->route('login');
         } else {
             return redirect()->back()->with('error', $messages);
         }             
     }
 
-    public function Login(Request $request){
+    public function Login(Request $request, Usuario $usuario){
 
-         //definição das regras
-         $rules = [
+        $rules = [
             'email' => 'required|email',
             'senha' => 'required|min:6',
         ];
@@ -78,7 +72,8 @@ class UsuariosController extends Controller
         if($request ->validate ($rules, $messages)){
             $email = $request->email;
             $senha = $request->senha; 
-            $usuarios = usuario::where('email', '=', $email)->where('senha', '=', $senha)->first();
+
+            $usuarios = $usuario->Login($email, $senha);
             
             if(@$usuarios->id != null){
                 $request->session()->put('user', $usuarios->id);

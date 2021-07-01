@@ -181,11 +181,11 @@
 		<div class="row">
 			<div class="col-md-6 col-sm-6">
 				<h4>Despesas por categoria</h4>
-				<canvas id="myChart" width="200" height="50%"></canvas>
+				<canvas class="myChart" id="myChart" width="200" height="50%"></canvas>
 			</div>
 			<div class="col-md-6 col-sm-6">
 				<h4>Fluxo de Caixa</h4>
-				<canvas id="myChartBar" width="100%" height="40"></canvas>
+				<canvas class="myChartBar" id="myChartBar" width="200" height="50%"></canvas>
 			</div>
 		</div>
 	</div>
@@ -484,18 +484,13 @@
 
 	<script>
 		var cData = JSON.parse(`<?=  $buscas['resultado'] ?>`);
-		console.log('Alisson cabeção');
-		console.log('<?=  $buscas['resultado'] ?>');
-		console.log(cData);
-		console.log(cData.descricao);
-
 		var ctx = document.getElementById('myChartBar').getContext('2d');
-		var myChart = new Chart(ctx, {
+		var myChartBar = new Chart(ctx, {
 			type: 'bar',
 			data: {
 				labels: cData.descricao,
 				datasets: [{
-					label: 'Despesas mensal em R$ ',
+					label: 'Receita x Despesa',
 					data: cData.valor,
 					backgroundColor: [
 						'rgba(255, 99, 132, 0.2)',
@@ -542,7 +537,7 @@
 				$("#receitas").text( result.receitas);
 				$("#despesas").text( result.despesas);
 				$("#saldo").text( result.saldo);
-				
+			
 				var trHTML = '';
 					$.each(result.list, function (i, item) {
 						trHTML += '<tr><td>' + item.descricao+ '</td><td>' + item.valor+ '</td><td>' + item.datapagamento + '</td><td>' + item.status+ '</td><td>' +
@@ -551,6 +546,45 @@
 					});
 					$("#tbody").empty();
 					$('#dataTable').append(trHTML);
+
+					var dados = JSON.parse(result.buscas['resultado']);
+					$labels = dados.descricao;
+
+
+					
+					myChart.data.labels.pop();
+					myChartBar.data.labels.pop();
+
+
+					myChart.data.datasets.forEach((dataset) => {
+						dataset.data = dados.valor;
+						if($labels){
+							myChart.data.labels=dados.descricao;
+						}else{
+							
+							myChartBar.data.labels.push('Sem dados para gerar gráfico');
+						}
+						
+						});
+    				myChart.update();	
+
+
+
+					
+					myChartBar.data.datasets.forEach((dataset) => {
+						dataset.data= dados.valor;
+						if($labels){
+							myChartBar.data.labels=dados.descricao;
+						}else{
+							
+							myChartBar.data.labels.push('Sem dados para gerar gráfico');
+						}
+						
+
+					});
+    				myChartBar.update();
+
+
 			});
 		});
 	</script>

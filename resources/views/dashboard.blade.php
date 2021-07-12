@@ -185,7 +185,7 @@
 			</div>
 			<div class="col-md-6 col-sm-6">
 				<h4>Fluxo de Caixa</h4>
-				<canvas class="myChartBar" id="myChartBar" width="200" height="50%"></canvas>
+				<canvas class="myChartBar" id="myChartBar" width="400" height="100%"></canvas>
 			</div>
 		</div>
 	</div>
@@ -483,19 +483,18 @@
 	</script>
 
 	<script>
-		var cData = JSON.parse(`<?=  $buscas['resultado'] ?>`);
+		var cData = JSON.parse(`<?= $buscaTotalDespesa['resultado'] ?>`);
+		var cData2 = JSON.parse(`<?= $buscaTotalReceita['resultado'] ?>`);
 		var ctx = document.getElementById('myChartBar').getContext('2d');
 		var myChartBar = new Chart(ctx, {
 			type: 'bar',
 			data: {
-				labels: cData.descricao,
+				labels: [cData.descricao, cData2.descricao],
 				datasets: [{
-					label: 'Receita x Despesa',
-					data: cData.valor,
+					label: 'Despesa',
+					data: cData.valor, 
 					backgroundColor: [
-						'rgba(255, 99, 132, 0.2)',
-      					'rgba(255, 159, 64, 0.2)',
-      					'rgba(75, 192, 192, 0.2)',
+						'rgba(75, 192, 192, 0.2)',
      					'rgba(54, 162, 235, 0.2)',
       					'rgba(153, 102, 255, 0.2)',
      					'rgba(201, 203, 207, 0.2)'		
@@ -509,8 +508,28 @@
       					'rgb(201, 203, 207)'	
 					],
 					borderWidth: 1
+				}],
+				datasets: [{
+					label: 'Despesa',
+					data: cData2.valor, 
+					backgroundColor: [
+						'rgba(75, 192, 192, 0.2)',
+     					'rgba(54, 162, 235, 0.2)',
+      					'rgba(153, 102, 255, 0.2)',
+     					'rgba(201, 203, 207, 0.2)'		
+					],
+					borderColor: [
+						'rgb(255, 99, 132)',
+      					'rgb(255, 159, 64)',
+     					'rgb(75, 192, 192)',
+      					'rgb(54, 162, 235)',
+      					'rgb(153, 102, 255)',		
+      					'rgb(201, 203, 207)'	
+					],
+					borderWidth: 1
 				}]
-			}
+			},
+		
 		});
 	</script>
 
@@ -546,11 +565,9 @@
 					});
 					$("#tbody").empty();
 					$('#dataTable').append(trHTML);
-
 					var dados = JSON.parse(result.buscas['resultado']);
 					$labels = dados.descricao;
-
-
+					
 					
 					myChart.data.labels.pop();
 					myChartBar.data.labels.pop();
@@ -567,7 +584,6 @@
 						
 						});
     				myChart.update();	
-
 
 
 					

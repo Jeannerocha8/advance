@@ -12,8 +12,6 @@ class despesa extends Model
     use HasFactory;
 
     public function Obterdados($user, $mes, $ano){
-
-
         //consulta sql
         $buscaDesp = DB::table('despesas')
         ->select(DB::raw('SUM(valor) as valor,  categoria'))
@@ -29,6 +27,23 @@ class despesa extends Model
                 $data['descricao'][] = $row->categoria;
                 $data['valor'][] = $row->valor;
             }
+            $result['resultado'] = json_encode($data);
+            return  $result;
+        }else{
+            $result['resultado'] = 0;
+            return $result;
+        }
+    }
+
+    public function ObterdadosTotalDespesas($user, $mesc, $ano){
+        $despesas = DB::table('despesas')->select('valor')->where('usuario','=',$user)->whereMonth('datapagamento',$mesc)->whereYear('datapagamento', $ano)->get();                 
+        $despesas  = $despesas->sum('valor');
+
+        $data = [];
+        if($despesas){
+            $result=[];
+            $data['descricao'][]='Total de despesas';
+            $data['valor'][]=$despesas;
             $result['resultado'] = json_encode($data);
             return  $result;
         }else{

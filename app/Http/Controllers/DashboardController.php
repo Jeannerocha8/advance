@@ -36,9 +36,12 @@ class DashboardController extends Controller
             $saldo = $receitas - $despesas;
             $despesaApagar = $despesa->Despesaspagar($user, $mes, $ano);
             $buscas = $despesa->Obterdados($user, $mes, $ano);
-            //dd($buscas);
+            $buscaTotalDespesa = $despesa->ObterdadosTotalDespesas($user, $mes, $ano);
+            $buscaTotalReceita=$receita->ObterdadosTotalReceitas($user, $mes, $ano);
+           // dd($buscaTotalDespesa, $buscaTotalReceita);
+
             //retornando a view e passando variaveis como parametros 
-            return view ('dashboard', compact('despesas','receitas','saldo', 'mes','list', 'despesaApagar','buscas'));
+            return view ('dashboard', compact('despesas','receitas','saldo', 'mes','list', 'despesaApagar','buscas', 'buscaTotalDespesa', 'buscaTotalReceita'));
         }else{
             return view ('login');
         }
